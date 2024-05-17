@@ -3,6 +3,9 @@ import cors from "cors";
 import morgan from "morgan";
 import * as dotenv from "dotenv";
 import "express-async-errors";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import path from "path";
 
 import { connectDB } from "./db/connectDB.js";
 import { pollRouter } from "./routes/pollRoutes.js";
@@ -12,6 +15,9 @@ const app = express();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
 
 app.use("/api/v1/polls", pollRouter);
 
